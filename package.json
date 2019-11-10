@@ -20,6 +20,7 @@
   "homepage": "https://github.com/bmandl/TreemapDiagram#readme",
   "devDependencies": {
     "css-loader": "^3.2.0",
+    "json-loader": "^0.5.7",
     "style-loader": "^1.0.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
@@ -27,6 +28,7 @@
   },
   "dependencies": {
     "d3": "^5.12.0",
+    "d3-textwrap": "^2.0.2",
     "topojson": "^3.0.2"
   }
 }
