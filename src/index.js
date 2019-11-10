@@ -24,6 +24,13 @@ var svg = d3.select("body").append("svg")
 .attr("transform",
     "translate(" + margin.left + "," + margin.top + ")");*/
 
+var colorsScale = d3.scaleOrdinal()
+.range(d3.schemeTableau10);
+
+var legend = d3.select("body").append("svg")
+.attr("id","legend")
+.append("g");
+
 d3.json(dataset).then(data => {
 
     var root = d3.hierarchy(data).sum(d => d.value);
@@ -31,6 +38,8 @@ d3.json(dataset).then(data => {
         .size([width, height])
         .paddingInner(1)
         (root);
+
+    colorsScale.domain(root.data.children.map(d=>d.name));
 
     var cell = svg.selectAll("g")
         .data(root.leaves())
@@ -46,7 +55,7 @@ d3.json(dataset).then(data => {
         .attr("data-category", d => d.data.category)
         .attr("data-value", d => d.data.value)
         .style("stroke", "black")
-        .style("fill", "slateblue")
+        .style("fill", d=>colorsScale(d.data.category))
 
     cell.append("text")
         .attr('class', 'tile-text')
