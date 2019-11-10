@@ -23,13 +23,35 @@ var svg = d3.select("body").append("svg")
 /*.append("g")
 .attr("transform",
     "translate(" + margin.left + "," + margin.top + ")");*/
+var colors = [
+	"#fdb664",
+	"#0030ac",
+	"#65cc00",
+	"#ef6cff",
+	"#008400",
+	"#ff4ed7",
+	"#004900",
+	"#ca0000",
+	"#00ffff",
+	"#a80027",
+	"#00deff",
+	"#760000",
+	"#00d2ff",
+	"#660000",
+	"#ffe36b",
+	"#003e97",
+	"#ffca81",
+	"#0063a0",
+	"#1d3e08",
+	"#004859"
+];
 
-var colorsScale = d3.scaleOrdinal()
-.range(d3.schemeTableau10);
+var colorScale = d3.scaleOrdinal(colors);
+//.range(d3.scaleSequential(d3.interpolatePiYG));
 
 var legend = d3.select("body").append("svg")
-.attr("id","legend")
-.append("g");
+    .attr("id", "legend")
+    .append("g");
 
 d3.json(dataset).then(data => {
 
@@ -39,8 +61,8 @@ d3.json(dataset).then(data => {
         .paddingInner(1)
         (root);
 
-    colorsScale.domain(root.data.children.map(d=>d.name));
-
+    colorScale.domain(root.data.children.map(d => d.name));
+    console.log(colorScale.range());
     var cell = svg.selectAll("g")
         .data(root.leaves())
         .enter().append("g")
@@ -55,7 +77,7 @@ d3.json(dataset).then(data => {
         .attr("data-category", d => d.data.category)
         .attr("data-value", d => d.data.value)
         .style("stroke", "black")
-        .style("fill", d=>colorsScale(d.data.category))
+        .style("fill", d => colorScale(d.data.category))
 
     cell.append("text")
         .attr('class', 'tile-text')
