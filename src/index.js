@@ -42,6 +42,9 @@ d3.json(dataset).then(data => {
         .attr("class", "tile")
         .attr('width', d => d.x1 - d.x0)
         .attr('height', d => d.y1 - d.y0)
+        .attr("data-name", d => d.data.name)
+        .attr("data-category", d => d.data.category)
+        .attr("data-value", d => d.data.value)
         .style("stroke", "black")
         .style("fill", "slateblue")
 
