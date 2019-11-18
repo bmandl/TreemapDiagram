@@ -7,6 +7,10 @@ var margin = { top: 10, right: 10, bottom: 10, left: 10 },
     width = 1200 - margin.left - margin.right,
     height = 580 - margin.top - margin.bottom;
 
+var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .attr("id", "tooltip")
+    .style("opacity", 0);
 
 const title = d3.select("body").append("div")
     .attr("class", "title");
@@ -90,6 +94,20 @@ d3.json(dataset).then(data => {
         .attr("data-value", d => d.data.value)
         .style("stroke", "black")
         .style("fill", d => colorScale(d.data.category))
+        .on("mousemove", d => {
+            tooltip.style("opacity", .9);
+            tooltip.html(
+                'Name: ' + d.data.name +
+                '<br>Category: ' + d.data.category +
+                '<br>Value: ' + d.data.value
+            )
+                .attr("data-value", d.data.value)
+                .style("left", (d3.event.pageX + 10) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+        })
+        .on("mouseout", d => {
+            tooltip.style("opacity", 0);
+        })
 
     cell.append("text")
         .attr('class', 'tile-text')
